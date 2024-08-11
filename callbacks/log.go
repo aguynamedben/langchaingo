@@ -117,7 +117,7 @@ func formatChainValues(values map[string]any) string {
 }
 
 func formatAgentAction(action schema.AgentAction) string {
-	return fmt.Sprintf("\"%s\" with input \"%s\"", removeNewLines(action.Tool), removeNewLines(action.ToolInput))
+	return fmt.Sprintf("\"%s\" with input \"%s\"", removeNewLines(action.Tool), removeNewLines(action.ToolInputSingle))
 }
 
 func removeNewLines(s any) string {

@@ -134,7 +134,7 @@ func (e *Executor) doAction(
 		}), nil
 	}
 
-	observation, err := tool.Call(ctx, action.ToolInput)
+	observation, err := tool.CallSingle(ctx, action.ToolInputSingle)
 	if err != nil {
 		return nil, err
 	}

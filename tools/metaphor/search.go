@@ -69,11 +69,15 @@ func (tool *Search) Description() string {
 	`
 }
 
+func (tool *Search) IsMultiInput() bool {
+	return false
+}
+
 // Call performs a search using the Search client.
 //
 // It takes a context.Context and a search query as string input as parameters.
 // It returns a string and an error.
-func (tool *Search) Call(ctx context.Context, input string) (string, error) {
+func (tool *Search) CallSingle(ctx context.Context, input string) (string, error) {
 	response, err := tool.client.Search(ctx, input, tool.options...)
 	if err != nil {
 		if errors.Is(err, metaphor.ErrNoSearchResults) {
@@ -93,4 +97,8 @@ func (tool *Search) formatResults(response *metaphor.SearchResponse) string {
 	}
 
 	return formattedResults
+}
+
+func (tool *Search) CallMulti(ctx context.Context, input map[string]any) (string, error) {
+	return "", fmt.Errorf("CallMulti not supported in tool %s", tool.Name())
 }

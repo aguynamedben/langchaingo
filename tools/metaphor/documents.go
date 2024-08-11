@@ -66,12 +66,16 @@ func (tool *Documents) Description() string {
 	"8U71IlQ5DUTdsherhhYA,9segZCZGNjjQB2yD2uyK,..."`
 }
 
+func (tool *Documents) IsMultiInput() bool {
+	return false
+}
+
 // Call calls the Documents API with the given input and returns the formatted contents.
 //
 // The input is a string that contains a comma-separated list of IDs.
 //
 // It returns a string which represents the formatted contents and an error if any.
-func (tool *Documents) Call(ctx context.Context, input string) (string, error) {
+func (tool *Documents) CallSingle(ctx context.Context, input string) (string, error) {
 	ids := strings.Split(input, ",")
 	for i, id := range ids {
 		ids[i] = strings.TrimSpace(id)
@@ -96,4 +100,8 @@ func (tool *Documents) formatContents(response *metaphor.ContentsResponse) strin
 	}
 
 	return formattedResults
+}
+
+func (tool *Documents) CallMulti(ctx context.Context, input map[string]any) (string, error) {
+	return "", fmt.Errorf("CallMulti not supported in tool %s", tool.Name())
 }

@@ -64,12 +64,16 @@ func (tool *LinksSearch) Description() string {
 	Input should be the url string for which you would like to find similar links`
 }
 
+func (tool *LinksSearch) IsMultiInput() bool {
+	return false
+}
+
 // Call searches for similar links using the LinksSearch tool.
 //
 // ctx - the context in which the function is called.
 // input - the string input used to find similar links, i.e. the url.
 // Returns a string containing the formatted links and an error if any occurred.
-func (tool *LinksSearch) Call(ctx context.Context, input string) (string, error) {
+func (tool *LinksSearch) CallSingle(ctx context.Context, input string) (string, error) {
 	links, err := tool.client.FindSimilar(ctx, input, tool.options...)
 	if err != nil {
 		if errors.Is(err, metaphor.ErrNoLinksFound) {
@@ -89,4 +93,8 @@ func (tool *LinksSearch) formatLinks(response *metaphor.SearchResponse) string {
 	}
 
 	return formattedResults
+}
+
+func (tool *LinksSearch) CallMulti(ctx context.Context, input map[string]any) (string, error) {
+	return "", fmt.Errorf("CallMulti not supported in tool %s", tool.Name())
 }

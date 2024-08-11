@@ -138,6 +138,6 @@ func (a *OneShotZeroAgent) parseOutput(output string) ([]schema.AgentAction, *sc
 	}
 
 	return []schema.AgentAction{
-		{Tool: strings.TrimSpace(matches[1]), ToolInput: strings.TrimSpace(matches[2]), Log: output},
+		{Tool: strings.TrimSpace(matches[1]), ToolInputSingle: strings.TrimSpace(matches[2]), Log: output},
 	}, nil, nil
 }

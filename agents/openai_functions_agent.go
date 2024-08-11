@@ -229,10 +229,10 @@ func (o *OpenAIFunctionsAgent) ParseOutput(contentResp *llms.ContentResponse) (
 
 	return []schema.AgentAction{
 		{
-			Tool:      functionName,
-			ToolInput: toolInput,
-			Log:       fmt.Sprintf("Invoking: %s with %s \n %s \n", functionName, toolInputStr, contentMsg),
-			ToolID:    choice.ToolCalls[0].ID,
+			Tool:            functionName,
+			ToolInputSingle: toolInput,
+			Log:             fmt.Sprintf("Invoking: %s with %s \n %s \n", functionName, toolInputStr, contentMsg),
+			ToolID:          choice.ToolCalls[0].ID,
 		},
 	}, nil, nil
 }

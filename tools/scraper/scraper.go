@@ -83,6 +83,10 @@ func (s Scraper) Description() string {
 	`
 }
 
+func (s Scraper) IsMultiInput() bool {
+	return false
+}
+
 // Call scrapes a website and returns the site data.
 //
 // The function takes a context.Context object for managing the execution
@@ -90,7 +94,7 @@ func (s Scraper) Description() string {
 // It returns a string containing the scraped data and an error if any.
 //
 //nolint:all
-func (s Scraper) Call(ctx context.Context, input string) (string, error) {
+func (s Scraper) CallSingle(ctx context.Context, input string) (string, error) {
 	_, err := url.ParseRequestURI(input)
 	if err != nil {
 		return "", fmt.Errorf("%s: %w", ErrScrapingFailed, err)
@@ -226,4 +230,8 @@ func (s Scraper) Call(ctx context.Context, input string) (string, error) {
 	}
 
 	return siteData.String(), nil
+}
+
+func (s Scraper) CallMulti(ctx context.Context, input map[string]any) (string, error) {
+	return "", fmt.Errorf("CallMulti not supported in tool %s", s.Name())
 }

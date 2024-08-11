@@ -3,6 +3,7 @@ package serpapi
 import (
 	"context"
 	"errors"
+	"fmt"
 	"os"
 	"strings"
 
@@ -51,7 +52,11 @@ func (t Tool) Description() string {
 	"Input should be a search query."`
 }
 
-func (t Tool) Call(ctx context.Context, input string) (string, error) {
+func (t Tool) IsMultiInput() bool {
+	return false
+}
+
+func (t Tool) CallSingle(ctx context.Context, input string) (string, error) {
 	if t.CallbacksHandler != nil {
 		t.CallbacksHandler.HandleToolStart(ctx, input)
 	}
@@ -74,4 +79,8 @@ func (t Tool) Call(ctx context.Context, input string) (string, error) {
 	}
 
 	return strings.Join(strings.Fields(result), " "), nil
+}
+
+func (t Tool) CallMulti(ctx context.Context, input map[string]any) (string, error) {
+	return "", fmt.Errorf("CallMulti not supported in tool %s", t.Name())
 }

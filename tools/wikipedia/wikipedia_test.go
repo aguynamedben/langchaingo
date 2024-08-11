@@ -13,6 +13,6 @@ func TestWikipedia(t *testing.T) {
 	t.Parallel()
 
 	tool := New(_userAgent)
-	_, err := tool.Call(context.Background(), "america")
+	_, err := tool.CallSingle(context.Background(), "america")
 	require.NoError(t, err)
 }

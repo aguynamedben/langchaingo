@@ -148,6 +148,10 @@ func (tool *API) Description() string {
 			An array of document IDs obtained from either /search or /findSimilar endpoints.`
 }
 
+func (tool *API) IsMultiInput() bool {
+	return false
+}
+
 // Call is a function that takes a context and an input string and returns a string and an error.
 //
 // The function expects a JSON string as input and unmarshals it into a ToolInput struct.
@@ -163,7 +167,7 @@ func (tool *API) Description() string {
 //
 // The function returns the result of the respective operation or an empty string and nil
 // if the Operation is not supported.
-func (tool *API) Call(ctx context.Context, input string) (string, error) {
+func (tool *API) CallSingle(ctx context.Context, input string) (string, error) {
 	var toolInput ToolInput
 
 	re := regexp.MustCompile(`(?s)\{.*\}`)
@@ -251,4 +255,8 @@ func (tool *API) formatContents(response *metaphor.ContentsResponse) string {
 	}
 
 	return formattedResults
+}
+
+func (tool *API) CallMulti(ctx context.Context, input map[string]any) (string, error) {
+	return "", fmt.Errorf("CallMulti not supported in tool %s", tool.Name())
 }

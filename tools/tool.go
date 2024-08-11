@@ -6,5 +6,7 @@ import "context"
 type Tool interface {
 	Name() string
 	Description() string
-	Call(ctx context.Context, input string) (string, error)
+	IsMultiInput() bool
+	CallSingle(ctx context.Context, input string) (string, error)
+	CallMulti(ctx context.Context, input map[string]any) (string, error)
 }

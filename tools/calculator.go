@@ -27,10 +27,14 @@ func (c Calculator) Name() string {
 	return "calculator"
 }
 
+func (c Calculator) IsMultiInput() bool {
+	return false
+}
+
 // Call evaluates the input using a starlak evaluator and returns the result as a
 // string. If the evaluator errors the error is given in the result to give the
 // agent the ability to retry.
-func (c Calculator) Call(ctx context.Context, input string) (string, error) {
+func (c Calculator) CallSingle(ctx context.Context, input string) (string, error) {
 	if c.CallbacksHandler != nil {
 		c.CallbacksHandler.HandleToolStart(ctx, input)
 	}
@@ -46,4 +50,8 @@ func (c Calculator) Call(ctx context.Context, input string) (string, error) {
 	}
 
 	return result, nil
+}
+
+func (c Calculator) CallMulti(ctx context.Context, input map[string]any) (string, error) {
+	return "", fmt.Errorf("CallMulti not supported in tool %s", c.Name())
 }

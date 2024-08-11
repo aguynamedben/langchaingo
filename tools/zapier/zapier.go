@@ -3,6 +3,7 @@ package zapier
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"text/template"
 
 	"github.com/tmc/langchaingo/callbacks"
@@ -78,7 +79,11 @@ func (t Tool) Description() string {
 	return t.description
 }
 
-func (t Tool) Call(ctx context.Context, input string) (string, error) {
+func (t Tool) IsMultiInput() bool {
+	return false
+}
+
+func (t Tool) CallSingle(ctx context.Context, input string) (string, error) {
 	if t.CallbacksHandler != nil {
 		t.CallbacksHandler.HandleToolStart(ctx, input)
 	}
@@ -121,4 +126,8 @@ func (t Tool) createDescription() string {
 	}
 
 	return bytes.String()
+}
+
+func (t Tool) CallMulti(ctx context.Context, input map[string]any) (string, error) {
+	return "", fmt.Errorf("CallMulti not supported in tool %s", t.Name())
 }
